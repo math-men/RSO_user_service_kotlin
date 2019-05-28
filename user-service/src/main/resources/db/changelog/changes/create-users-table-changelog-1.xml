@@ -6,7 +6,7 @@
 
     <changeSet author="kpasikowski" id="users-21052019-table">
         <createTable tableName="USERS" remarks="Table containing users definitions">
-            <column name="ID" type="BIGINT" remarks="Id column">
+            <column name="ID" type="BIGSERIAL" remarks="Id column">
                 <constraints nullable="false" primaryKey="true"
                              primaryKeyName="USERS_PK"/>
             </column>
