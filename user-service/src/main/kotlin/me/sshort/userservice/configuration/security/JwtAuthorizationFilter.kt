@@ -11,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter
+import org.springframework.util.StringUtils
 import java.io.IOException
 import javax.servlet.FilterChain
 import javax.servlet.ServletException
@@ -27,9 +28,9 @@ class JwtAuthorizationFilter(
         request: HttpServletRequest, response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        val header = request.getHeader(SecurityConstants.TOKEN_HEADER)
+        val header: String? = request.getHeader(SecurityConstants.TOKEN_HEADER)
 
-        if (header.isBlank() || !header.startsWith(SecurityConstants.TOKEN_PREFIX)) {
+        if (header.isNullOrEmpty() || !header.startsWith(SecurityConstants.TOKEN_PREFIX)) {
             filterChain.doFilter(request, response)
             return
         }

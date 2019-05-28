@@ -18,9 +18,4 @@ class UserCtrl(
         return ResponseEntity.ok("utworzone")
     }
 
-    @GetMapping
-    fun hello(): ResponseEntity<String> {
-        return ResponseEntity.ok("hello")
-    }
-
 }
