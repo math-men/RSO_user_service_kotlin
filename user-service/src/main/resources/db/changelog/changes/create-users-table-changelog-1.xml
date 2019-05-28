@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet author="kpasikowski" id="users-21052019-table">
+        <createTable tableName="USERS" remarks="Table containing users definitions">
+            <column name="ID" type="BIGINT" remarks="Id column">
+                <constraints nullable="false" primaryKey="true"
+                             primaryKeyName="USERS_PK"/>
+            </column>
+            <column name="USERNAME" type="VARCHAR(200)"/>
+            <column name="PASSWORD" type="VARCHAR(200)"/>
+            <column name="EMAIL" type="VARCHAR(300)"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="USERS"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
