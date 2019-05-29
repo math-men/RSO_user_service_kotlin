@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/math-men/RSO_user_service_kotlin.svg?branch=master)](https://travis-ci.com/math-men/RSO_user_service_kotlin)
+
 ## Uruchomienie bazy
 
 ```
