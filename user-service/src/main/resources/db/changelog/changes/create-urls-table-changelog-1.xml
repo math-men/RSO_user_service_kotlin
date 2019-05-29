@@ -5,17 +5,17 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <changeSet author="kpasikowski" id="users-21052019-table">
-        <createTable tableName="USERS" remarks="Table containing users definitions">
+        <createTable tableName="USERS_URLS" remarks="Table containing info about URLs of each user">
             <column name="ID" type="BIGSERIAL" remarks="Id column">
                 <constraints nullable="false" primaryKey="true"
-                             primaryKeyName="USERS_PK"/>
+                             primaryKeyName="USERS_URLS_PK"/>
             </column>
-            <column name="USERNAME" type="VARCHAR(200)"/>
-            <column name="PASSWORD" type="VARCHAR(200)"/>
-            <column name="EMAIL" type="VARCHAR(300)"/>
+            <column name="USER_ID" type="BIGSERIAL"/>
+            <column name="URL" type="VARCHAR(512)"/>
+            <column name="SHORTENED_URL" type="VARCHAR(32)"/>
         </createTable>
         <rollback>
-            <dropTable tableName="USERS"/>
+            <dropTable tableName="USERS_URLS"/>
         </rollback>
     </changeSet>
 </databaseChangeLog>
