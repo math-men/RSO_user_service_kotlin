@@ -1,7 +1,20 @@
 language: java
-jdk: oraclejdk8
+jdk: openjdk8
+services:
+  - docker
 cache:
   directories:
   - "$HOME/.m2/repository"
 script:
   - mvn -f ./user-service/pom.xml clean install
+deploy:
+  provider: script
+  script: >-
+    docker build -t aleksanderbrzozowski/rso-user-service ./user-service && 
+    echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin && 
+    docker push aleksanderbrzozowski/rso-user-service &&
+    ~/.local/bin/aws ecs update-service --cluster sshort-cluster --service user-service --region us-east-1 --force-new-deployment
+  skip_cleanup: true
+  on:
+    branch: master
+    condition: $DEPLOY = TRUE
