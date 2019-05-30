@@ -6,7 +6,8 @@ import javax.validation.constraints.NotNull
 data class UserDto(
     @NotNull val username: String,
     @NotNull val password: String? = null,
-    @NotNull val email: String?
+    @NotNull val email: String? = null,
+    val userId: Long? = null
 ) {
     fun toUser() = User(
         username = username!!,

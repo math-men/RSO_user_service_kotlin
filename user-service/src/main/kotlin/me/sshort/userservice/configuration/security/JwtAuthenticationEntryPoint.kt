@@ -1,5 +1,6 @@
 package me.sshort.userservice.configuration.security
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.AuthenticationEntryPoint
 import org.springframework.stereotype.Component
@@ -10,7 +11,9 @@ import javax.servlet.http.HttpServletResponse
 
 
 @Component
-class JwtAuthenticationEntryPoint : AuthenticationEntryPoint {
+class JwtAuthenticationEntryPoint(
+    val objectMapper: ObjectMapper
+) : AuthenticationEntryPoint {
 
     @Throws(IOException::class, ServletException::class)
     override fun commence(

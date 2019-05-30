@@ -1,6 +1,7 @@
 package me.sshort.userservice.configuration.security
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys
@@ -49,20 +50,24 @@ class JwtAuthenticationFilter(
         request: HttpServletRequest, response: HttpServletResponse,
         filterChain: FilterChain, authentication: Authentication
     ) {
-        val user = authentication.principal as User
+        val user = authentication.principal as UserPrincipal
 
         val signingKey = SecurityConstants.JWT_SECRET.toByteArray()
 
+        val claims = Jwts.claims().setSubject(user.username)
+
         val token = Jwts.builder()
+            .setClaims(claims)
+            .setId(user.userId.toString())
             .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
             .setHeaderParam("typ", SecurityConstants.TOKEN_TYPE)
             .setIssuer(SecurityConstants.TOKEN_ISSUER)
             .setAudience(SecurityConstants.TOKEN_AUDIENCE)
-            .setSubject(user.username)
             .setExpiration(Date(System.currentTimeMillis() + 864000000))
             .compact()
 
         //TODO zwracac w ciele token
         response.addHeader(SecurityConstants.TOKEN_HEADER, SecurityConstants.TOKEN_PREFIX + token)
+//        response.
     }
 }

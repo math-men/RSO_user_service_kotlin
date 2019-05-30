@@ -19,6 +19,6 @@ class UserDetailsServiceImpl(
         val user =
             userRepository.findByUsername(username) ?: throw UsernameNotFoundException("Nie ma takiego użytkownika")
 
-        return User(user.username, user.password, emptyList())
+        return UserPrincipal(user.username, user.password, emptyList(), user.id!!)
     }
 }
