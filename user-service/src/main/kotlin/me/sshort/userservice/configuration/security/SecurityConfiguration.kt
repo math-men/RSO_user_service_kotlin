@@ -30,7 +30,10 @@ class SecurityConfiguration(
         http.cors().and()
             .csrf().disable()
             .authorizeRequests()
-            .antMatchers("/api/user/**")
+            .antMatchers(
+                "/api/user",
+                "/api/user/token"
+            )
             .permitAll()
             .and()
             .authorizeRequests()

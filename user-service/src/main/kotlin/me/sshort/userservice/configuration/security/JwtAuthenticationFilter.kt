@@ -5,6 +5,8 @@ import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys
+import me.sshort.userservice.domain.dto.ErrorDto
+import me.sshort.userservice.domain.dto.TokenDto
 import me.sshort.userservice.domain.dto.UserDto
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -66,8 +68,8 @@ class JwtAuthenticationFilter(
             .setExpiration(Date(System.currentTimeMillis() + 864000000))
             .compact()
 
-        //TODO zwracac w ciele token
-        response.addHeader(SecurityConstants.TOKEN_HEADER, SecurityConstants.TOKEN_PREFIX + token)
-//        response.
+        response.contentType = "application/json"
+        response.status = HttpServletResponse.SC_OK
+        objectMapper.writeValue(response.writer, TokenDto(token))
     }
 }

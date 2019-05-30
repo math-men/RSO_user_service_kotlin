@@ -3,7 +3,6 @@ package me.sshort.userservice.controller
 import me.sshort.userservice.domain.dto.UserDto
 import me.sshort.userservice.service.UserService
 import org.springframework.http.ResponseEntity
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.util.UriComponentsBuilder

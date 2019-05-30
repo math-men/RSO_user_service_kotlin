@@ -1,6 +1,7 @@
 package me.sshort.userservice.configuration.security
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import me.sshort.userservice.domain.dto.ErrorDto
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.AuthenticationEntryPoint
 import org.springframework.stereotype.Component
@@ -21,7 +22,9 @@ class JwtAuthenticationEntryPoint(
         httpServletResponse: HttpServletResponse,
         e: AuthenticationException
     ) {
-        httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Nieautoryzowany dostep")
+        httpServletResponse.contentType = "application/json"
+        httpServletResponse.status = HttpServletResponse.SC_UNAUTHORIZED
+        objectMapper.writeValue(httpServletResponse.writer, ErrorDto("Nieautoryzowany dostęp"))
     }
 
 }
