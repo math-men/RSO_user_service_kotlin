@@ -32,7 +32,8 @@ class SecurityConfiguration(
             .authorizeRequests()
             .antMatchers(
                 "/api/user",
-                "/api/user/token"
+                "/api/user/token",
+                "/health"
             )
             .permitAll()
             .and()
