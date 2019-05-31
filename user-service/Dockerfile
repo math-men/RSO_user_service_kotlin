@@ -1,20 +1,4 @@
-FROM openjdk:8-jdk-alpine
-
-#Postgres properties
-ENV POSTGRES_URL="localhost:5432"
-ENV POSTGRES_DATABASE_NAME="sshort"
-ENV POSTGRES_USERNAME="sshort"
-ENV POSTGRES_PASSWORD="sshort"
-
-#link service properties
-ENV LINK_SERVICE_URL=""
-
-LABEL maintainer="Sshort"
-
-EXPOSE 8080
-
-ARG JAR_FILE=target/user-service-1.0-SNAPSHOT.jar
-
-ADD ${JAR_FILE} sshort-user-service.jar
-
-ENTRYPOINT ["java", "-jar", "/sshort-user-service.jar"]
+FROM openjdk:8-jre-alpine
+# jar path should be parameterized (version in file may vary)
+COPY target/user-service-1.0-SNAPSHOT.jar app.jar
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"]
