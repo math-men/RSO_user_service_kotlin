@@ -7,6 +7,8 @@ cache:
   - "$HOME/.m2/repository"
 script:
   - mvn -f ./user-service/pom.xml clean install
+before_deploy:
+  pip install --user awscli
 deploy:
   provider: script
   script: >-
