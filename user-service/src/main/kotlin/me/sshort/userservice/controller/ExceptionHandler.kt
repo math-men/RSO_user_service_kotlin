@@ -29,4 +29,12 @@ class ExceptionHandler {
             .body(ErrorDto(INTERNAL_SERVER_ERROR_MESSAGE))
     }
 
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    fun handleIllegalArgumentException(exception: IllegalArgumentException): ResponseEntity<ErrorDto> {
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(ErrorDto(exception.message))
+    }
+
 }

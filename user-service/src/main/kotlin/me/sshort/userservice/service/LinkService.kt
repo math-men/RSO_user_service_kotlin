@@ -1,18 +1,11 @@
 package me.sshort.userservice.service
 
 import me.sshort.userservice.adapter.LinkServiceAdapter
-import me.sshort.userservice.domain.dto.LinkDto
-import me.sshort.userservice.domain.dto.LinkInitDto
-import me.sshort.userservice.domain.dto.LinkMappingDto
-import me.sshort.userservice.domain.dto.UserDto
+import me.sshort.userservice.domain.dto.*
 import me.sshort.userservice.repository.LinkRepository
-import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.security.authentication.AnonymousAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
-import org.springframework.util.Assert
-import java.lang.RuntimeException
 
 @Service
 class LinkService(
@@ -39,4 +32,13 @@ class LinkService(
 
         return mapping
     }
+
+    fun findAllUserLinks(userId: Long): List<LinkMappingDto> {
+        return linkRepository.findByUserId(userId)
+    }
+
+    fun findLinkInfo(shortenedUrl: String): LinkInfoDto {
+        return linkServiceAdapter.findLinkInfo(shortenedUrl)
+    }
+
 }

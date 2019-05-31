@@ -20,22 +20,23 @@ class LinkCtrl(
         @RequestBody @Validated linkDto: LinkDto
     ): ResponseEntity<LinkMappingDto> {
         val linkMapping = linkService.create(linkDto)
+
         return ResponseEntity.ok().body(linkMapping)
     }
 
     @GetMapping("/{shortenedUrl}")
     fun findLinkInfo(@PathVariable shortenedUrl: String): ResponseEntity<LinkInfoDto> {
+        val linkInfo = linkService.findLinkInfo(shortenedUrl)
 
-        // TODO
-        return ResponseEntity.ok().body(null)
+        return ResponseEntity.ok().body(linkInfo)
     }
 
     @GetMapping
     fun findAllUserLinks(): ResponseEntity<List<LinkMappingDto>> {
         val user = SecurityContextHolder.getContext().authentication.principal as UserPrincipal
-        val userId = user.userId
+        val userId = user.userId!!
+        val allUserLinks = linkService.findAllUserLinks(userId)
 
-        // TODO
-        return ResponseEntity.ok().body(null)
+        return ResponseEntity.ok().body(allUserLinks)
     }
 }
