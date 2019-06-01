@@ -1,5 +1,6 @@
 package me.sshort.userservice.controller
 
+import me.sshort.userservice.domain.dto.PasswordExchangeDto
 import me.sshort.userservice.domain.dto.UserDto
 import me.sshort.userservice.service.UserService
 import org.springframework.http.ResponseEntity
@@ -31,6 +32,11 @@ class UserCtrl(
 
     }
 
-//    TODO: Add change password request handler
+    @PostMapping("/password")
+    fun changePassword(@RequestBody passwordExchangeDto: PasswordExchangeDto): ResponseEntity<Void> {
+        userService.changePassword(passwordExchangeDto)
+
+        return ResponseEntity.ok().build()
+    }
 
 }
