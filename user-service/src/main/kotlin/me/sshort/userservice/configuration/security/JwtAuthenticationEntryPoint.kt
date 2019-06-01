@@ -24,7 +24,7 @@ class JwtAuthenticationEntryPoint(
     ) {
         httpServletResponse.contentType = "application/json"
         httpServletResponse.status = HttpServletResponse.SC_UNAUTHORIZED
-        objectMapper.writeValue(httpServletResponse.writer, ErrorDto("Nieautoryzowany dostęp"))
+        objectMapper.writeValue(httpServletResponse.writer, ErrorDto("Unauthorized access"))
     }
 
 }

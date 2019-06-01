@@ -12,7 +12,7 @@ import java.lang.Exception
 @ControllerAdvice
 class ExceptionHandler {
 
-    val INTERNAL_SERVER_ERROR_MESSAGE = "Wewnętrzny błąd serwera"
+    val INTERNAL_SERVER_ERROR_MESSAGE = "Internal server error"
 
     @ExceptionHandler
     fun handleAbstractException(exception: AbstractException): ResponseEntity<ErrorDto> {

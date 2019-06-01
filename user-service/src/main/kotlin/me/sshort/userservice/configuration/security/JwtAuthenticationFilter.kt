@@ -25,6 +25,8 @@ class JwtAuthenticationFilter(
     objectMapper_: ObjectMapper
 ) : UsernamePasswordAuthenticationFilter() {
 
+    private val RESPONSE_CONTENT_TYPE = "application/json"
+
     val authenticationManager_: AuthenticationManager = authenticationManager
     val objectMapper = objectMapper_
 
@@ -68,7 +70,7 @@ class JwtAuthenticationFilter(
             .setExpiration(Date(System.currentTimeMillis() + 864000000))
             .compact()
 
-        response.contentType = "application/json"
+        response.contentType = RESPONSE_CONTENT_TYPE
         response.status = HttpServletResponse.SC_OK
         objectMapper.writeValue(response.writer, TokenDto(token))
     }

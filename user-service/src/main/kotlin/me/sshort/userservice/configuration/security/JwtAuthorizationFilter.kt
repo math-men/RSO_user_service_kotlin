@@ -49,7 +49,7 @@ class JwtAuthorizationFilter(
 
                 val parsedToken = Jwts.parser()
                     .setSigningKey(signingKey)
-                    .parseClaimsJws(token.replace("Bearer ", ""))
+                    .parseClaimsJws(token.replace(SecurityConstants.TOKEN_PREFIX, ""))
 
                 val username = parsedToken
                     .body
