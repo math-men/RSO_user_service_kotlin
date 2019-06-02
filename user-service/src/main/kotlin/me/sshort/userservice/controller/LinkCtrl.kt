@@ -4,6 +4,7 @@ import me.sshort.userservice.configuration.security.UserPrincipal
 import me.sshort.userservice.domain.dto.LinkDto
 import me.sshort.userservice.domain.dto.LinkInfoDto
 import me.sshort.userservice.domain.dto.LinkMappingDto
+import me.sshort.userservice.domain.dto.UserDto
 import me.sshort.userservice.service.LinkService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -33,7 +34,7 @@ class LinkCtrl(
 
     @GetMapping
     fun findAllUserLinks(): ResponseEntity<List<LinkMappingDto>> {
-        val user = SecurityContextHolder.getContext().authentication.principal as UserPrincipal
+        val user = SecurityContextHolder.getContext().authentication.principal as UserDto
         val userId = user.userId!!
         val allUserLinks = linkService.findAllUserLinks(userId)
 

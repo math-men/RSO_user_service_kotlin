@@ -10,10 +10,10 @@ import org.springframework.web.client.RestTemplate
 
 @Component
 class LinkServiceAdapter(
-    val objectMapper: ObjectMapper
+    objectMapper: ObjectMapper
 ) {
 
-    @Value("linksvc.url")
+    @Value("\${linksvc.url}")
     lateinit var linkServiceUrl: String
 
     val BASE_URI = "/api/link"
@@ -24,13 +24,13 @@ class LinkServiceAdapter(
     }
 
     fun createLink(init: LinkInitDto): LinkMappingDto {
-        val uri = "$linkServiceUrl/$BASE_URI"
+        val uri = "$linkServiceUrl$BASE_URI"
         return restTemplate.postForObject(uri, init, LinkMappingDto::class.java)
             ?: throw IllegalStateException("Link creation failed")
     }
 
     fun findLinkInfo(shortenedUrl: String): LinkInfoDto {
-        val uri = "$linkServiceUrl/$BASE_URI/$shortenedUrl"
+        val uri = "$linkServiceUrl$BASE_URI/$shortenedUrl"
         return restTemplate.getForObject(uri, LinkInfoDto::class.java)
             ?: throw IllegalStateException("Fetching link info failed")
     }
