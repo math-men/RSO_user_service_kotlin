@@ -1,7 +1,7 @@
 package me.sshort.userservice.adapter
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import me.sshort.userservice.domain.dto.LinkInfoDto
+import me.sshort.userservice.domain.dto.LinkClicksDto
 import me.sshort.userservice.domain.dto.LinkInitDto
 import me.sshort.userservice.domain.dto.LinkMappingDto
 import org.springframework.beans.factory.annotation.Value
@@ -24,14 +24,14 @@ class LinkServiceAdapter(
     }
 
     fun createLink(init: LinkInitDto): LinkMappingDto {
-        val uri = "$linkServiceUrl/links"
+        val uri = "$linkServiceUrl/link"
         return restTemplate.postForObject(uri, init, LinkMappingDto::class.java)
             ?: throw IllegalStateException("Link creation failed")
     }
 
-    fun findLinkInfo(shortenedUrl: String): LinkInfoDto {
-        val uri = "$linkServiceUrl/links/$shortenedUrl"
-        return restTemplate.getForObject(uri, LinkInfoDto::class.java)
+    fun findLinkInfo(shortenedUrl: String): LinkClicksDto {
+        val uri = "$linkServiceUrl/link/api/$shortenedUrl"
+        return restTemplate.getForObject(uri, LinkClicksDto::class.java)
             ?: throw IllegalStateException("Fetching link info failed")
     }
 }
