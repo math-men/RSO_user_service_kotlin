@@ -1,6 +1,6 @@
 package me.sshort.userservice.domain.dto
 
 data class LinkInitDto(
-    val url: String,
+    val original: String,
     val ttl: Int
 )
