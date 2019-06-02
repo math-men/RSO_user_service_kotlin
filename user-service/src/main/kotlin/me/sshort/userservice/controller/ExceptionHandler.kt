@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
-import java.lang.Exception
 
 @ControllerAdvice
 class ExceptionHandler {
@@ -18,6 +17,7 @@ class ExceptionHandler {
     companion object {
         val log: Logger = LoggerFactory.getLogger(ExceptionHandler::class.java)
     }
+
     val INTERNAL_SERVER_ERROR_MESSAGE = "Internal server error"
 
     @ExceptionHandler
