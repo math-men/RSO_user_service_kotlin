@@ -7,7 +7,7 @@ Signed up users could log in to the user service using valid password. It is rea
     When logging in
     Then log in should succeed
 
-  Scenario: User can log in twice using same name
+  Scenario: User can log in twice using same name and its token will not change
     Given logged in user Adam with password Okay
     When logging in again
     Then log in should succeed

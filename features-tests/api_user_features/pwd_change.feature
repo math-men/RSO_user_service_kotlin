@@ -17,4 +17,8 @@ Logged in users could change their passwords. The final password (at the moment)
     When logging in with new password
     Then log in should succeed
 
+  # Scenario: User can not use previous token after password change
+  #   Given user Adam with changed password from Okay to MyNewOkay
+  #   When accessing some protected endpoint using old token
+  #   Then it should fail as unauthorized
 

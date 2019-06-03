@@ -2,6 +2,10 @@ from behave import given, when, then, step
 
 import requests
 
+#
+# GIVENs
+#
+
 @given('user {username} with changed password from {old_password} to {new_password}')
 def step_impl(context, username, old_password, new_password):
     context.execute_steps(u'''
@@ -9,6 +13,10 @@ def step_impl(context, username, old_password, new_password):
         When changing password to {}
         Then password should be changed
     '''.format(username, old_password, new_password))
+
+#
+# WHENs
+#
 
 @when('changing password to {new_password}')
 def step_impl(context, new_password):
@@ -33,6 +41,17 @@ def step_impl(context):
     context.execute_steps(u'''
         When logging in with password {}
     '''.format(context.new_password))
+
+@when('accessing some protected endpoint using old token')
+def step_impl(context):
+    # E.g. some protected endpoint is that one to change password
+    context.execute_steps(u'''
+        When changing password to BlaBlaBla
+    ''')
+
+#
+# THENs
+#
 
 @then('password should be changed')
 def step_impl(context):

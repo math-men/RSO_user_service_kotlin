@@ -57,8 +57,6 @@ def step_impl(context):
 @then('log in should fail as unauthorized')
 def step_impl(context):
 	context.execute_steps(u'''
-	    Then HTTP 401 should be returned
-	    And response should be coded as application/json with charset ISO-8859-1
-	    And response should have message field
+		Then it should fail as unauthorized
 	    And response should not have token field
 	''')
