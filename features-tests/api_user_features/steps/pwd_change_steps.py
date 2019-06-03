@@ -14,7 +14,7 @@ def step_impl(context, username, old_password, new_password):
 def step_impl(context, new_password):
     context.new_password = new_password
 
-    context.url = context.server_url + '/api/user/password'
+    context.url = context.user_service_url + '/api/user/password'
     context.payload = {
         'oldPassword': context.user['password'],
         'newPassword': new_password

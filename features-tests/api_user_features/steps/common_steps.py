@@ -41,7 +41,7 @@ def step_impl(context, username, password):
 
 @when('we POST it at {endpoint} as JSON')
 def step_impl(context, endpoint):
-    url = (context.server_url) + endpoint
+    url = (context.user_service_url) + endpoint
     context.request = {
         'url': url,
         'payload': context.user
