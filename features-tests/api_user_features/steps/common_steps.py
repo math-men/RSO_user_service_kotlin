@@ -41,21 +41,21 @@ def step_impl(context, username, password):
 
 @when('we POST it at {endpoint} as JSON')
 def step_impl(context, endpoint):
-    url = 'http://localhost:8080' + endpoint
+    url = (context.server_url) + endpoint
     context.request = {
         'url': url,
         'payload': context.user
     }
 
     request = context.request
-    context.response = requests.post(request['url'], json=request['payload'])
+    context.response = requests.post(url=request['url'], json=request['payload'])
 
 @when('we repeat the same request')
 def step_impl(context):
     context.prev_response = context.response
 
     request = context.request
-    context.next_response = requests.post(request['url'], json=request['payload'])
+    context.next_response = requests.post(url=request['url'], json=request['payload'])
 
 #
 # THENs
@@ -63,7 +63,7 @@ def step_impl(context):
 
 @then('HTTP {status_code:d} should be returned')
 def step_impl(context, status_code):
-    print context.response.status_code
+    print "Status code: " + str(context.response.status_code)
     assert context.response.status_code == status_code
 
 @then('response should be coded as {mimetype} with charset {charset}')

@@ -1,5 +1,6 @@
 from behave import fixture, use_fixture
 import psycopg2
+import os
 
 conn_string = "host='localhost' user='sshort' password='sshort'"
 
@@ -11,6 +12,7 @@ def posgresql_connection(context):
     context.dbconn.close()
 
 def before_all(context):
+    context.server_url = os.environ['SERVER_URL']
     use_fixture(posgresql_connection, context)
 
 def before_scenario(context, scenario):
