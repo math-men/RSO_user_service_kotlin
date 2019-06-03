@@ -24,13 +24,13 @@ class LinkServiceAdapter(
     }
 
     fun createLink(init: LinkInitDto): LinkMappingDto {
-        val uri = "$linkServiceUrl/link"
+        val uri = "$linkServiceUrl/links"
         return restTemplate.postForObject(uri, init, LinkMappingDto::class.java)
             ?: throw IllegalStateException("Link creation failed")
     }
 
     fun findLinkInfo(shortenedUrl: String): LinkClicksDto {
-        val uri = "$linkServiceUrl/link/api/$shortenedUrl"
+        val uri = "$linkServiceUrl/links/api/$shortenedUrl"
         return restTemplate.getForObject(uri, LinkClicksDto::class.java)
             ?: throw IllegalStateException("Fetching link info failed")
     }
