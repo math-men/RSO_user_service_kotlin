@@ -2,6 +2,10 @@ from behave import given, when, then, step
 
 import requests
 
+#
+# GIVENs
+#
+
 @given('logged in user {username} with password {password}')
 def step_impl(context, username, password):
     context.execute_steps(u'''
@@ -9,6 +13,16 @@ def step_impl(context, username, password):
         When logging in
         Then log in should succeed
     '''.format(username, password))
+
+@given('some logged in user')
+def step_impl(context):
+	context.execute_steps(u'''
+		Given logged in user Adam with password Okay
+	''')
+
+#
+# WHENs
+#
 
 @when('logging in')
 def step_impl(context):
@@ -39,6 +53,10 @@ def step_impl(context):
 	context.execute_steps(u'''
 		When we repeat the same request
 	''')
+
+#
+# THENs
+#
 
 @then('log in should succeed')
 def step_impl(context):

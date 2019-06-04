@@ -16,7 +16,7 @@ There are some requirements, like:
     Given signed up user Adam with password Okay and email Adam at Okay.pl
     And user Adam with password Okay and email Adam at Okay.pl
     When signing up
-    Then registration should fail
+    Then registration should fail due to conflict
 
   Scenario: User can register account with same password and email
     Given signed up user Adam with password Okay and email Adam at Okay.pl
@@ -25,11 +25,21 @@ There are some requirements, like:
     Then registration should succeed
 
   Scenario: User must provide name during registration
-    Given user with password Okay and email Adam at Okay.pl
+    Given user with password Okay and email Adam at Okay.pl without name
     When signing up
     Then server error should be returned
 
+  # Scenario: User must provide non-empty name during registration
+  #   Given user with password Okay and email Adam at Okay.pl with empty name
+  #   When signing up
+  #   Then server error should be returned
+
   Scenario: User must provide password during registration
-    Given user Adam with email Adam at Okay.pl
+    Given user Adam with email Adam at Okay.pl without password
     When signing up
     Then server error should be returned
+
+  # Scenario: User must provide non-empty password during registration
+  #   Given user Adam with email Adam at Okay.pl with empty password
+  #   When signing up
+  #   Then server error should be returned

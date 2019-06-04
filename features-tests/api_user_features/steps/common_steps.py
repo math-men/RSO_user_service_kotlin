@@ -7,44 +7,24 @@ import re
 # GIVENs
 #
 
-@given('user {username} with password {password} and email {emailp} at {emaild}')
-def step_impl(context, username, password, emailp, emaild):
-    context.user = {
-        'username': username,
-        'password': password,
-        'email': (emailp + '@' + emaild)
-    }
+@given('empty request')
+def step_impl(context):
+    if 'payload' in context:
+        del context.payload
 
-@given('user with password {password} and email {emailp} at {emaild}')
-def step_impl(context, password, emailp, emaild):
-    context.user = {
-        'password': password,
-        'email': (emailp + '@' + emaild)
-    }
-
-@given('user {username} with email {emailp} at {emaild}')
-def step_impl(context, username, emailp, emaild):
-    context.user = {
-        'username': username,
-        'email': (emailp + '@' + emaild)
-    }
-
-@given('user {username} with password {password}')
-def step_impl(context, username, password):
-    context.user = {
-        'username': username,
-        'password': password
-    }
-
-@given('empty JSON request')
+@given('JSON request')
 def step_impl(context):
     context.payload = {}
-    context.mimetype = 'JSON'
 
 @given('{fieldname} field equal to {value}')
 def step_impl(context, fieldname, value):
     assert 'payload' in context
     context.payload[fieldname] = value
+
+@given('empty field {fieldname}')
+def step_impl(context, fieldname):
+    assert 'payload' in context
+    context.payload[fieldname] = ''
 
 @given('not logged in user')
 def step_impl(context):
@@ -75,13 +55,28 @@ def step_impl(context, method):
 
 @when('sending request')
 def step_impl(context):
-    assert context.mimetype is 'JSON'
+    if 'headers' in context:
+        headers = context.headers
+    else:
+        headers = {}
+    print "Headers: " + str(headers)
+
     if context.method == 'POST':
-        context.response = requests.post(url=context.url,
-                                         json=context.payload)
+        if 'payload' in context:
+            context.response = requests.post(url=context.url,
+                                             json=context.payload,
+                                             headers=headers)
+        else:
+            context.response = requests.post(url=context.url, headers=headers)
+
     elif context.method == 'GET':
-        context.response = requests.get(url=context.url,
-                                        json=context.payload)
+        if 'payload' in context:
+            context.response = requests.get(url=context.url,
+                                            json=context.payload,
+                                            headers=headers)
+        else:
+            context.response = requests.get(url=context.url, headers=headers)
+
     else:
         assert False
 
@@ -109,12 +104,12 @@ def step_impl(context):
 
 @then('{fieldname} field should have only letters A-Z')
 def step_impl(context, fieldname):
-    context.execute_steps(u'''
-        And {} field should match regex ^[A-Z]+$
-    '''.format(fieldname))
+    assert fieldname in context.response_json
+    assert re.match(r'^[A-Z]+$', context.response_json[fieldname])
 
 @then('HTTP {status_code:d} should be returned')
 def step_impl(context, status_code):
+    print context.response
     assert context.response.status_code == status_code
 
 @then('response should be coded as {mimetype} with charset {charset}')
@@ -124,12 +119,24 @@ def step_impl(context, mimetype, charset):
     assert got_mimetype == mimetype
     assert got_charset.split('=')[1] == charset
 
-    if mimetype is "application/json":
+    if mimetype in "application/json":
         context.response_json = context.response.json()
+
+@then('response should be a list')
+def step_impl(context):
+    assert isinstance(context.response_json, list)
+
+@then('response should have size {n}')
+def step_impl(context, n):
+    assert (len(context.response_json) == int(n))
 
 @then('response should have {fieldname} field')
 def step_impl(context, fieldname):
     assert fieldname in context.response.json()
+
+@then('response should only have {fieldname} field')
+def step_impl(context, fieldname):
+    assert context.response.json().keys() == [fieldname]
 
 @then('response should not have {fieldname} field')
 def step_impl(context, fieldname):
@@ -145,17 +152,12 @@ def step_impl(context, fieldname):
     assert fieldname in context.response_json
     assert context.response_json[fieldname] is not ''
 
-@then('{fieldname} field should match regex {regex}')
-def step_impl(context, fieldname, regex):
-    assert fieldname in context.response_json
-    assert re.match(regex, context.response_json[fieldname])
-
 @then('server error should be returned')
 def step_impl(context):
     context.execute_steps(u'''
         Then HTTP 500 should be returned
         And response should be coded as application/json with charset UTF-8
-        And response should have message field
+        And response should only have message field
     ''')
 
 @then('it should fail as unauthorized')
@@ -163,5 +165,5 @@ def step_impl(context):
     context.execute_steps(u'''
         Then HTTP 401 should be returned
         And response should be coded as application/json with charset ISO-8859-1
-        And response should have message field
+        And response should only have message field
     ''')
